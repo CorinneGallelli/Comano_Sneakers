@@ -11,6 +11,8 @@ const app = Vue.createApp({
       chosen: {},
       cart: [],
       showCart: false,
+      toast: '',
+      toastTimer: null,
       selectedCategory: 'Tutte',
       search: ''
     }
@@ -49,13 +51,18 @@ const app = Vue.createApp({
       } else {
         this.cart.push({ id: product.id, name: product.name, price: product.price, size: size, qty: 1 })
       }
-      this.showCart = true
+      this.toast = product.name + ' aggiunta al carrello'
+      clearTimeout(this.toastTimer)
+      this.toastTimer = setTimeout(() => { this.toast = '' }, 2000)
     },
     changeQty(index, delta) {
       this.cart[index].qty += delta
       if (this.cart[index].qty <= 0) {
         this.cart.splice(index, 1)
       }
+    },
+    clearCart() {
+      this.cart = []
     }
   }
 })
