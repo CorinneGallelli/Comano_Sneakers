@@ -1,0 +1,109 @@
+body {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif, sans-serif;
+  margin: 0;
+  padding: 1rem;
+  background: #f1f3f5;
+  color: #12202b;
+}
+h1 { color: #c62727; }
+.products {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 0.75rem;
+}
+.swatch {
+  height: 70px;
+  border-radius: 8px;
+}
+button {
+  background: #0a7d5a;
+  color: white;
+  border: 0;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+}
+
+.gallery {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 0.5rem;
+  border-radius: 8px;
+}
+.gallery img {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  scroll-snap-align: start;
+}
+
+input[type="search"] {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #c9d0d8;
+  border-radius: 8px;
+  font-family: inherit;
+  margin-bottom: 0.75rem;
+}
+.filters {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  margin-bottom: 0.75rem;
+}
+.chip {
+  background: white;
+  color: #12202b;
+  border: 1px solid #12202b;
+  border-radius: 99px;
+}
+.chip.active {
+  background: #12202b;
+  color: white;
+}
+
+.sizes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin: 0.5rem 0;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.cart-toggle {
+  margin-bottom: 0.75rem;
+}
+.cart {
+  background: white;
+  border-radius: 12px;
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+.cart ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0.5rem;
+}
+.cart li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid #e3e7ec;
+}
+
+@media (min-width: 768px) {
+  .products {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

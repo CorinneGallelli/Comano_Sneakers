@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>COMANO Sneakers</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="app">
+  <h1>COMANO Sneakers</h1>
+   <button class="cart-toggle" @click="showCart = !showCart">Carrello ({{ cartCount }})</button>
+
+<div class="cart" v-show="showCart">
+  <p v-if="cart.length === 0">Il carrello è vuoto.</p>
+  <ul v-else>
+    <li v-for="(item, index) in cart" :key="item.id + '-' + item.size">
+      <span>{{ item.name }} · taglia {{ item.size }}</span>
+      <span>
+        <button @click="changeQty(index, -1)">−</button>
+        {{ item.qty }}
+        <button @click="changeQty(index, 1)">+</button>
+        {{ item.qty * item.price }} €
+      </span>
+    </li>
+  </ul>
+  <strong v-if="cart.length">Totale: {{ cartTotal }} €</strong>
+</div>
+
+<input v-model="search" type="search" placeholder="Cerca una scarpa..." />
+
+<div class="filters">
+  <button v-for="c in categories" :key="c"
+          class="chip" :class="{ active: c === selectedCategory }"
+          @click="selectedCategory = c">
+    {{ c }}
+  </button>
+</div>
+
+<p v-if="filteredProducts.length === 0">Nessuna scarpa trovata.</p>
+
+<div class="products">
+  <div class="card" v-for="p in filteredProducts" :key="p.id">
+    <div class="gallery">
+      <img v-for="(img, i) in p.images" :key="i" :src="img" :alt="p.name + ' foto ' + (i + 1)">
+    </div>
+    <h2>{{ p.name }}</h2>
+    <p>{{ p.category }} · {{ p.price }} €</p>
+    <div class="sizes">
+  <button v-for="s in sizes" :key="s" class="chip"
+          :class="{ active: chosen[p.id] === s }"
+          @click="chosen[p.id] = s">
+    {{ s }}
+  </button>
+</div>
+<button :disabled="!chosen[p.id]" @click="addToCart(p)">
+  {{ chosen[p.id] ? 'Aggiungi al carrello' : 'Scegli una taglia' }}
+</button>
+    </div>
+  </div>
+</div>
+
+    <script src="https://unpkg.com/vue@3"></script>
+    <script src="main.js"></script>
+  </body>
+</html>
