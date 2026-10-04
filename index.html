@@ -19,7 +19,18 @@
       </header>
 
       <main class="page">
-        <input v-model="search" type="search" placeholder="Cerca una scarpa..." />
+        <div class="toolbar">
+          <input v-model="search" type="search" placeholder="Cerca una scarpa..." />
+          <select v-model="sortBy" aria-label="Ordina">
+            <option value="default">Ordina per...</option>
+            <option value="name">Nome</option>
+            <option value="price-asc">Prezzo crescente</option>
+            <option value="price-desc">Prezzo decrescente</option>
+          </select>
+          <label class="check">
+            <input type="checkbox" v-model="onlyAvailable" /> Solo disponibili
+          </label>
+        </div>
 
         <div class="filters">
           <button v-for="c in categories" :key="c"
@@ -32,12 +43,24 @@
         <p v-if="filteredProducts.length === 0">Nessuna scarpa trovata.</p>
 
         <div class="products">
-          <div class="card" v-for="p in filteredProducts" :key="p.id">
+          <div class="card" v-for="p in filteredProducts" :key="p.id"
+               @mouseover="hovered = p.id" @mouseleave="hovered = null"
+               :style="{ boxShadow: hovered === p.id ? '0 6px 18px rgba(18, 32, 43, 0.18)' : 'none' }">
             <div class="gallery">
               <img v-for="(img, i) in p.images" :key="i" :src="img" :alt="p.name + ' foto ' + (i + 1)">
             </div>
             <h2>{{ p.name }}</h2>
             <p class="meta">{{ p.category }} · {{ p.price }} €</p>
+
+            <p class="stock out" v-if="p.stock === 0">Esaurito</p>
+            <p class="stock low" v-else-if="p.stock <= 3">Ultimi {{ p.stock }} pezzi</p>
+            <p class="stock ok" v-else>Disponibile</p>
+
+            <button class="link" @click="open[p.id] = !open[p.id]">
+              {{ open[p.id] ? 'Nascondi dettagli' : 'Dettagli' }}
+            </button>
+            <p class="desc" v-show="open[p.id]">{{ p.desc }}</p>
+
             <div class="sizes">
               <button v-for="s in sizes" :key="s" class="chip"
                       :class="{ active: chosen[p.id] === s }"
@@ -45,8 +68,8 @@
                 {{ s }}
               </button>
             </div>
-            <button class="add" :disabled="!chosen[p.id]" @click="addToCart(p)">
-              {{ chosen[p.id] ? 'Aggiungi al carrello' : 'Scegli una taglia' }}
+            <button class="add" :disabled="p.stock === 0 || !chosen[p.id]" @click="addToCart(p)">
+              {{ p.stock === 0 ? 'Esaurito' : (chosen[p.id] ? 'Aggiungi al carrello' : 'Scegli una taglia') }}
             </button>
           </div>
         </div>
@@ -74,6 +97,12 @@
             </div>
           </li>
         </ul>
+
+        <div class="ship" v-if="cart.length">
+          <p v-if="cartTotal >= freeShipping">Hai la spedizione gratuita!</p>
+          <p v-else>Ti mancano {{ freeShipping - cartTotal }} € per la spedizione gratuita</p>
+          <div class="bar"><div class="bar-fill" :style="{ width: shippingPercent + '%' }"></div></div>
+        </div>
 
         <div class="drawer-foot" v-if="cart.length">
           <div class="total"><span>Totale</span><strong>{{ cartTotal }} €</strong></div>

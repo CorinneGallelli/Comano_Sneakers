@@ -131,6 +131,30 @@ input[type="search"] {
   font-size: 0.9rem;
 }
 
+.toolbar { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-bottom: 0.75rem; }
+.toolbar input[type="search"] { margin-bottom: 0; flex: 1 1 100%; }
+.toolbar select {
+  flex: 1;
+  min-height: 44px;
+  padding: 0.5rem;
+  border: 1px solid #c9d0d8;
+  border-radius: 8px;
+  font: inherit;
+  background: white;
+}
+.check { display: flex; align-items: center; gap: 0.4rem; font-size: 0.9rem; }
+
+.card { transition: box-shadow 0.2s ease; }
+.stock { font-size: 0.8rem; font-weight: 600; margin: 0 0 0.3rem; }
+.stock.ok { color: #0a7d5a; }
+.stock.low { color: #b7791f; }
+.stock.out { color: #c1121f; }
+.desc { font-size: 0.85rem; color: #5b6577; margin: 0.3rem 0; }
+
+.ship { margin: 0.5rem 0; font-size: 0.9rem; }
+.bar { height: 8px; background: #e3e7ec; border-radius: 99px; overflow: hidden; }
+.bar-fill { height: 100%; background: #0a7d5a; transition: width 0.3s ease; }
+
 /* TABLET (da 768px in su) */
 @media (min-width: 768px) {
   .topbar { padding: 0.7rem 2rem; }
@@ -152,4 +176,4 @@ input[type="search"] {
 
 /* DESKTOP (da 992px in su) */
 @media (min-width: 992px) {
-  .products { grid-template-columns: repeat(4, 1fr); }
+  .products { grid-template-columns: repeat(4, 1fr); }}
